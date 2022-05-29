@@ -1,66 +1,28 @@
-# This checks if the number of arguments is correct
-# If the number of arguments is incorrect ( $# != 2) print error message and exit
-if [[ $# != 2 ]]
-then
-  echo "backup.sh target_directory_name destination_directory_name"
-  exit
-fi
+ #!/bin/bash
+   # This script calculates simple interest given principal,
+   # annual rate of interest and time period in years.
 
-# This checks if argument 1 and argument 2 are valid directory paths
-if [[ ! -d $1 ]] || [[ ! -d $2 ]]
-then
-  echo "Invalid directory path provided"
-  exit
-fi
+   # Do not use this in production. Sample purpose only.
 
-# [TASK 1]
-targetDirectory=$1
-destinationDirectory=$2
+   # Author: Upkar Lidder (IBM)
+   # Additional Authors:
+   # <your GitHub username>
 
-# [TASK 2]
-echo "Target directory: $1"
-echo "Destination directory: $2"
+   # Input:
+   # p, principal amount
+   # t, time period in years
+   # r, annual rate of interest
 
-# [TASK 3]
-currentTS=`date +%s`
+   # Output:
+   # simple interest = p*t*r
 
-# [TASK 4]
-backupFileName="backup-$currentTS.tar.gz"
+   echo "Enter the principal:"
+   read p
+   echo "Enter rate of interest per year:"
+   read r
+   echo "Enter time period in years:"
+   read t
 
-# We're going to:
-  # 1: Go into the target directory
-  # 2: Create the backup file
-  # 3: Move the backup file to the destination directory
-
-# To make things easier, we will define some useful variables...
-
-# [TASK 5]
-origAbsPath=`pwd`
-
-# [TASK 6]
-cd $destinationDirectory # <- Change to the destination directory
-destDirAbsPath=`pwd`
-
-# [TASK 7]
-cd $origAbsPath # <- Change to the original directory
-cd $targetDirectory # <- Change to the target directory
-
-# [TASK 8]
-yesterdayTS=$(($currentTS - 24*60*60))
-
-declare -a toBackup
-
-for file in $(ls) # [TASK 9]
-do
-  # [TASK 10]
-  if ((`date -r $file +%s` > $yesterdayTS))
-  then
-    # [TASK 11]
-    toBackup+=($file)
-  fi
-done
-
-# [TASK 12]
-tar -czvf $backupFileName ${toBackup[*]}
-# [TASK 13]
-mv $backupFileName $destDirAbsPath
+   s=`expr $p \* $t \* $r / 100`
+   echo "The simple interest is: "
+   echo $s
